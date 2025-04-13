@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>КнигаМания - Онлайн библиотека</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Добавляем скрипт Google Sign-In -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+</head>
+<body>
+  <!-- Навигационная панель -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="logo-container">
+        <h1 class="logo">КнигаМания</h1>
+      </div>
+      <div class="menu-container">
+        <ul class="menu-list">
+          <li class="menu-list-item active" data-page="home">Главная</li>
+          <li class="menu-list-item" data-page="library">Библиотека</li>
+          <li class="menu-list-item" data-page="genres">Жанры</li>
+          <li class="menu-list-item" data-page="popular">Популярное</li>
+          <li class="menu-list-item" data-page="new">Новинки</li>
+          <li class="menu-list-item" data-page="admin">Админ-панель</li>
+        </ul>
+      </div>
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Поиск книг...">
+        <button class="search-button"><i class="fas fa-search"></i></button>
+      </div>
+      <div class="profile-container">
+        <div class="profile-info">
+          <img class="profile-picture" src="img/default-avatar.png" alt="Фото профиля" id="userAvatar" />
+          <div class="profile-text-container">
+            <span class="profile-text" id="userName">Войти</span>
+            <i class="fas fa-caret-down" aria-hidden="true"></i>
+          </div>
+        </div>
+        <button class="toggle" id="themeToggle" aria-label="Переключить тему">
+          <div class="toggle-ball">
+            <i class="fas fa-sun" aria-hidden="true"></i>
+          </div>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Боковая панель -->
+  <aside class="sidebar">
+    <div class="menu-item" data-page="home" aria-label="Главная">
+      <i class="left-menu-icon fas fa-home" aria-hidden="true"></i>
+    </div>
+    <div class="menu-item" data-page="library" aria-label="Библиотека">
+      <i class="left-menu-icon fas fa-book" aria-hidden="true"></i>
+    </div>
+    <div class="menu-item" data-page="favorites" aria-label="Избранное">
+      <i class="left-menu-icon fas fa-bookmark" aria-hidden="true"></i>
+    </div>
+    <div class="menu-item" data-page="history" aria-label="История">
+      <i class="left-menu-icon fas fa-history" aria-hidden="true"></i>
+    </div>
+    <div class="menu-item" data-page="payment" aria-label="Оплата">
+      <i class="left-menu-icon fas fa-credit-card" aria-hidden="true"></i>
+    </div>
+    <div class="menu-item" data-page="admin" aria-label="Админ-панель">
+      <i class="left-menu-icon fas fa-cog" aria-hidden="true"></i>
+    </div>
+  </aside>
+
+  <!-- Основной контент -->
+  <main class="container">
+    <!-- Главная страница -->
+    <div class="content-page active" id="home">
+      <div class="featured-content">
+        <div class="featured-text">
+          <h1 class="featured-title">Добро пожаловать в КнигаМанию</h1>
+          <p class="featured-description">
+            Ваша персональная онлайн-библиотека. Читайте книги в любое время и в любом месте. 
+            Тысячи произведений ждут вас: от классики до современных бестселлеров.
+          </p>
+          <button class="featured-button">Начать чтение</button>
+        </div>
+        <img src="img/book.png" alt="Изображение книги" class="featured-image" />
+      </div>
+
+      <div class="categories-container">
+        <h2 class="section-title">Жанры</h2>
+        <div class="categories-grid">
+          <div class="category-item" data-genre="fiction">
+            <i class="fas fa-book-open"></i>
+            <span>Художественная литература</span>
+          </div>
+          <div class="category-item" data-genre="science">
+            <i class="fas fa-flask"></i>
+            <span>Научная литература</span>
+          </div>
+          <div class="category-item" data-genre="education">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Образование</span>
+          </div>
+          <div class="category-item" data-genre="business">
+            <i class="fas fa-chart-line"></i>
+            <span>Бизнес</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-list-container">
+        <h2 class="section-title">Новые поступления</h2>
+        <div class="book-list-wrapper">
+          <div class="book-list-item" data-book-id="1">
+            <img class="book-list-item-img" src="img/Самурай.jpg" alt="Обложка книги">
+            <span class="book-list-item-title">Самурай без меча</span>
+            <div class="book-actions">
+              <button class="read-button">Читать</button>
+              <button class="download-button"><i class="fas fa-download"></i></button>
+              <button class="bookmark-button"><i class="fas fa-bookmark"></i></button>
+            </div>
+          </div>
+          <div class="book-list-item" data-book-id="2">
+            <img class="book-list-item-img" src="img/Чынгыз.jpg" alt="Обложка книги">
+            <span class="book-list-item-title">И дольше века длится день</span>
+            <div class="book-actions">
+              <button class="read-button">Читать</button>
+              <button class="download-button"><i class="fas fa-download"></i></button>
+              <button class="bookmark-button"><i class="fas fa-bookmark"></i></button>
+            </div>
+          </div>
+          <div class="book-list-item" data-book-id="3">
+            <img class="book-list-item-img" src="img/лев толстой.jpg" alt="Обложка книги">
+            <span class="book-list-item-title">Война и мир</span>
+            <div class="book-actions">
+              <button class="read-button">Читать</button>
+              <button class="download-button"><i class="fas fa-download"></i></button>
+              <button class="bookmark-button"><i class="fas fa-bookmark"></i></button>
+            </div>
+          </div>
+          <div class="book-list-item" data-book-id="4">
+            <img class="book-list-item-img" src="img/Алишер.jpg" alt="Обложка книги">
+            <span class="book-list-item-title">Стихи</span>
+            <div class="book-actions">
+              <button class="read-button">Читать</button>
+              <button class="download-button"><i class="fas fa-download"></i></button>
+              <button class="bookmark-button"><i class="fas fa-bookmark"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Страница библиотеки -->
+    <div class="content-page" id="library">
+      <h2 class="section-title">Моя библиотека</h2>
+      <div class="book-list-wrapper">
+        <!-- Книги будут загружены через JavaScript -->
+      </div>
+    </div>
+
+    <!-- Страница жанров -->
+    <div class="content-page" id="genres">
+      <h2 class="section-title">Жанры</h2>
+      <div class="categories-grid">
+        <!-- Жанры будут загружены через JavaScript -->
+      </div>
+    </div>
+
+    <!-- Страница популярного -->
+    <div class="content-page" id="popular">
+      <h2 class="section-title">Популярные книги</h2>
+      <div class="book-list-wrapper">
+        <!-- Популярные книги будут загружены через JavaScript -->
+      </div>
+    </div>
+
+    <!-- Страница новинок -->
+    <div class="content-page" id="new">
+      <h2 class="section-title">Новинки</h2>
+      <div class="book-list-wrapper">
+        <!-- Новинки будут загружены через JavaScript -->
+      </div>
+    </div>
+
+    <!-- Страница оплаты -->
+    <div class="content-page" id="payment">
+      <h2 class="section-title">Тарифные планы</h2>
+      <div class="payment-container">
+        <div class="payment-plan free-plan">
+          <h3>Бесплатный</h3>
+          <p class="price">0 СОМ</p>
+          <ul class="features">
+            <li>Доступ к бесплатным книгам</li>
+            <li>Ограниченное количество скачиваний</li>
+            <li>Базовые функции чтения</li>
+          </ul>
+          <button class="subscribe-button">Активировать</button>
+        </div>
+        <div class="payment-plan">
+          <h3>Месячная подписка</h3>
+          <p class="price">100 СОМ месяц</p>
+          <ul class="features">
+            <li>Доступ ко всем книгам</li>
+            <li>Офлайн чтение</li>
+            <li>Синхронизация закладок</li>
+          </ul>
+          <button class="subscribe-button">Оформить подписку</button>
+        </div>
+        <div class="payment-plan">
+          <h3>Годовая подписка</h3>
+          <p class="price">2 990 СОМ/год</p>
+          <p class="savings">Экономия 598 СОМ</p>
+          <ul class="features">
+            <li>Доступ ко всем книгам</li>
+            <li>Офлайн чтение</li>
+            <li>Синхронизация закладок</li>
+            <li>Приоритетная поддержка</li>
+          </ul>
+          <button class="subscribe-button">Оформить подписку</button>
+        </div>
+        <div class="payment-plan admin-plan">
+          <h3>Админ-доступ</h3>
+          <p class="price">5 000 СОМ/месяц</p>
+          <ul class="features">
+            <li>Полный доступ к админ-панели</li>
+            <li>Управление книгами</li>
+            <li>Добавление новых книг</li>
+            <li>Редактирование существующих книг</li>
+            <li>Удаление книг</li>
+            <li>Приоритетная поддержка 24/7</li>
+          </ul>
+          <button class="subscribe-button">Оформить админ-доступ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Читатель -->
+    <div class="reader-container" id="reader">
+      <div class="reader-header">
+        <button class="reader-close"><i class="fas fa-times"></i></button>
+        <div class="reader-controls">
+          <button class="font-size-button"><i class="fas fa-text-height"></i></button>
+          <button class="theme-button"><i class="fas fa-moon"></i></button>
+          <button class="bookmark-button"><i class="fas fa-bookmark"></i></button>
+        </div>
+      </div>
+      <div class="reader-content">
+        <div class="book-content" id="bookContent">
+          <!-- Содержание книги будет загружено через JavaScript -->
+        </div>
+      </div>
+      <div class="reader-footer">
+        <div class="progress-bar">
+          <div class="progress"></div>
+        </div>
+        <div class="page-controls">
+          <button class="prev-page"><i class="fas fa-chevron-left"></i></button>
+          <span class="page-info">Страница <span id="currentPage">1</span> из <span id="totalPages">100</span></span>
+          <button class="next-page"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Добавляем страницу авторизации -->
+    <div class="content-page" id="auth">
+      <div class="auth-container">
+        <h2>Вход в аккаунт</h2>
+        <div class="auth-methods">
+          <button class="google-auth-button" id="googleAuth">
+            <i class="fab fa-google"></i>
+            Войти через Google
+          </button>
+        </div>
+        <div class="auth-divider">
+          <span>или</span>
+        </div>
+        <div class="auth-form">
+          <input type="email" placeholder="Email" id="authEmail">
+          <input type="password" placeholder="Пароль" id="authPassword">
+          <button class="auth-submit" id="authSubmit">Войти</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Страница админ-панели -->
+    <div class="content-page" id="admin">
+      <div class="admin-container">
+        <h2 class="section-title">Админ-панель</h2>
+        
+        <!-- Форма добавления книги -->
+        <div class="admin-form">
+          <h3>Добавить новую книгу</h3>
+          <div class="form-group">
+            <label for="bookTitle">Название книги</label>
+            <input type="text" id="bookTitle" placeholder="Введите название">
+          </div>
+          <div class="form-group">
+            <label for="bookAuthor">Автор</label>
+            <input type="text" id="bookAuthor" placeholder="Введите автора">
+          </div>
+          <div class="form-group">
+            <label for="bookCover">Обложка</label>
+            <input type="file" id="bookCover" accept="image/*">
+          </div>
+          <div class="form-group">
+            <label for="bookDescription">Описание</label>
+            <textarea id="bookDescription" placeholder="Введите описание"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="bookGenre">Жанр</label>
+            <select id="bookGenre">
+              <option value="fiction">Художественная литература</option>
+              <option value="science">Научная литература</option>
+              <option value="education">Образование</option>
+              <option value="business">Бизнес</option>
+              <option value="poetry">Поэзия</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bookPdf">PDF файл</label>
+            <input type="file" id="bookPdf" accept=".pdf">
+          </div>
+          <div class="form-group">
+            <label for="bookContent">Содержание (каждая глава с новой строки)</label>
+            <textarea id="bookContent" placeholder="Глава 1&#10;Текст главы 1&#10;&#10;Глава 2&#10;Текст главы 2"></textarea>
+          </div>
+          <button class="admin-submit" id="addBook">Добавить книгу</button>
+        </div>
+
+        <!-- Список книг для управления -->
+        <div class="admin-books">
+          <h3>Управление книгами</h3>
+          <div class="admin-books-list" id="adminBooksList">
+            <!-- Книги будут загружены через JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Подключаем JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
